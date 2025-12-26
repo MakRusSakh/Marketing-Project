@@ -45,3 +45,37 @@ export {
   type BrandVoice as ExtendedBrandVoice,
   type ContentType as GeneratorContentType,
 } from './content-generator';
+
+// Export Brand Voice Loader
+export {
+  BrandVoiceLoader,
+  type ExtendedBrandVoice as FullBrandVoice,
+  type ProductContext as VoiceProductContext,
+  type VoiceValidationResult,
+} from './brand-voice-loader';
+
+// Export Engagement Predictor
+export {
+  EngagementPredictor,
+  type EngagementPrediction,
+  type ImprovementSuggestion,
+  type PostComparison,
+  type PostingTimeRecommendation,
+} from './engagement-predictor';
+
+// Export Platform Adapter
+export {
+  PlatformAdapter,
+  type Platform as AdapterPlatform,
+  type AdaptedContent,
+  type OptimizedContent,
+  type ThreadSplit,
+} from './platform-adapter';
+
+// Export Thread Generator
+export {
+  ThreadGenerator,
+  type Platform as ThreadPlatform,
+  type ThreadOptions,
+  type GeneratedThread as GeneratedThreadContent,
+} from './thread-generator';
