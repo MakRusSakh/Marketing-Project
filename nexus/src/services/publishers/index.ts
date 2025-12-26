@@ -35,5 +35,9 @@ export { DiscordPublisher } from './discord-publisher';
 // VK Publisher
 export { VKPublisher } from './vk-publisher';
 
+// Facebook Publisher
+export { FacebookPublisher } from './facebook-publisher';
+export type { FacebookCredentials, FacebookPublishOptions } from './facebook-publisher';
+
 // Publishing Queue
 export { PublishingQueue } from './publishing-queue';
