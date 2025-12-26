@@ -1,0 +1,264 @@
+// NEXUS - Multi-Platform Social Media Management System
+// Prisma Schema Definition
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// PRODUCT MODEL
+// Represents a user's product/brand being managed
+// ============================================================================
+
+model Product {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String
+  slug          String   @unique
+  description   String?  @db.Text
+  brandVoice    Json?    @db.JsonB
+  webhookSecret String?
+  settings      Json?    @db.JsonB
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  channels      Channel[]
+  contents      Content[]
+  automations   Automation[]
+  events        Event[]
+  templates     Template[]
+
+  @@index([slug])
+  @@index([createdAt])
+  @@map("products")
+}
+
+// ============================================================================
+// CHANNEL MODEL
+// Connected social media platforms for a product
+// ============================================================================
+
+model Channel {
+  id           String    @id @default(uuid()) @db.Uuid
+  productId    String    @db.Uuid
+  platform     String    // twitter, linkedin, facebook, instagram, etc.
+  platformName String?   // Custom name for the channel
+  credentials  Json      @db.JsonB // Encrypted credentials
+  settings     Json?     @db.JsonB
+  status       String    @default("active") // active, inactive, error
+  lastUsedAt   DateTime?
+  errorMessage String?   @db.Text
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  publications Publication[]
+
+  @@unique([productId, platform])
+  @@index([productId])
+  @@index([platform])
+  @@index([status])
+  @@map("channels")
+}
+
+// ============================================================================
+// CONTENT MODEL
+// Created content (posts, threads, etc.)
+// ============================================================================
+
+model Content {
+  id           String    @id @default(uuid()) @db.Uuid
+  productId    String    @db.Uuid
+  originalText String    @db.Text
+  adapted      Json?     @db.JsonB // Platform-specific adaptations
+  contentType  String    @default("post") // post, thread, story, etc.
+  templateId   String?   @db.Uuid
+  media        Json?     @db.JsonB // Media attachments metadata
+  aiGenerated  Boolean   @default(false)
+  aiPrompt     String?   @db.Text
+  aiModel      String?
+  predictions  Json?     @db.JsonB // AI predictions/suggestions
+  status       String    @default("draft") // draft, ready, published, archived
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  template     Template?     @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  publications Publication[]
+
+  @@index([productId])
+  @@index([templateId])
+  @@index([status])
+  @@index([contentType])
+  @@index([createdAt])
+  @@map("contents")
+}
+
+// ============================================================================
+// PUBLICATION MODEL
+// Scheduled or published posts to channels
+// ============================================================================
+
+model Publication {
+  id             String    @id @default(uuid()) @db.Uuid
+  contentId      String    @db.Uuid
+  channelId      String    @db.Uuid
+  status         String    @default("scheduled") // scheduled, publishing, published, failed
+  scheduledAt    DateTime?
+  publishedAt    DateTime?
+  platformPostId String?   // ID from the social platform
+  platformUrl    String?   // URL to the published post
+  threadIds      Json?     @db.JsonB // For multi-post threads
+  errorCode      String?
+  errorMessage   String?   @db.Text
+  retryCount     Int       @default(0)
+  metrics        Json?     @db.JsonB // Engagement metrics
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Relations
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@index([contentId])
+  @@index([channelId])
+  @@index([status])
+  @@index([scheduledAt])
+  @@index([publishedAt])
+  @@map("publications")
+}
+
+// ============================================================================
+// AUTOMATION MODEL
+// Automation rules for content workflows
+// ============================================================================
+
+model Automation {
+  id            String    @id @default(uuid()) @db.Uuid
+  productId     String    @db.Uuid
+  name          String
+  description   String?   @db.Text
+  triggerType   String    // webhook, schedule, manual, event
+  triggerConfig Json      @db.JsonB // Trigger-specific configuration
+  conditions    Json?     @db.JsonB // Conditions to evaluate
+  actions       Json      @db.JsonB // Actions to execute
+  enabled       Boolean   @default(true)
+  lastTriggered DateTime?
+  triggerCount  Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  product        Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  automationLogs AutomationLog[]
+
+  @@index([productId])
+  @@index([triggerType])
+  @@index([enabled])
+  @@index([lastTriggered])
+  @@map("automations")
+}
+
+// ============================================================================
+// EVENT MODEL
+// Incoming webhook events
+// ============================================================================
+
+model Event {
+  id                    String    @id @default(uuid()) @db.Uuid
+  productId             String    @db.Uuid
+  eventType             String
+  payload               Json      @db.JsonB
+  processed             Boolean   @default(false)
+  processedAt           DateTime?
+  automationsTriggered  Json?     @db.JsonB // List of automation IDs triggered
+  result                Json?     @db.JsonB // Processing result
+  createdAt             DateTime  @default(now())
+
+  // Relations
+  product        Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  automationLogs AutomationLog[]
+
+  @@index([productId])
+  @@index([eventType])
+  @@index([processed])
+  @@index([createdAt])
+  @@map("events")
+}
+
+// ============================================================================
+// AUTOMATION LOG MODEL
+// Execution logs for automations
+// ============================================================================
+
+model AutomationLog {
+  id              String    @id @default(uuid()) @db.Uuid
+  automationId    String    @db.Uuid
+  eventId         String?   @db.Uuid
+  status          String    // success, failed, partial
+  startedAt       DateTime  @default(now())
+  completedAt     DateTime?
+  actionsExecuted Json?     @db.JsonB // Details of executed actions
+  errorMessage    String?   @db.Text
+  triggerData     Json?     @db.JsonB // Snapshot of trigger data
+  createdAt       DateTime  @default(now())
+
+  // Relations
+  automation Automation @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  event      Event?     @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([automationId])
+  @@index([eventId])
+  @@index([status])
+  @@index([startedAt])
+  @@map("automation_logs")
+}
+
+// ============================================================================
+// TEMPLATE MODEL
+// Content templates for structured content creation
+// ============================================================================
+
+model Template {
+  id          String   @id @default(uuid()) @db.Uuid
+  productId   String?  @db.Uuid // null for system templates
+  name        String
+  description String?  @db.Text
+  category    String?
+  contentType String   @default("post")
+  platforms   String[] // Applicable platforms
+  structure   Json     @db.JsonB // Template structure definition
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  product  Product?  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  contents Content[]
+
+  @@index([productId])
+  @@index([category])
+  @@index([contentType])
+  @@index([isSystem])
+  @@map("templates")
+}
+
+// ============================================================================
+// SETTING MODEL
+// Application-wide settings
+// ============================================================================
+
+model Setting {
+  key       String   @id
+  value     Json     @db.JsonB
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
