@@ -52,21 +52,21 @@ const triggerTypeConfig = {
   },
   schedule: {
     icon: Calendar,
-    label: "Schedule",
+    label: "Расписание",
     color: "text-blue-600",
     bg: "bg-blue-50",
     border: "border-blue-200",
   },
   event: {
     icon: Activity,
-    label: "Event",
+    label: "Событие",
     color: "text-green-600",
     bg: "bg-green-50",
     border: "border-green-200",
   },
   manual: {
     icon: Zap,
-    label: "Manual",
+    label: "Вручную",
     color: "text-orange-600",
     bg: "bg-orange-50",
     border: "border-orange-200",
@@ -102,9 +102,12 @@ export function AutomationCard({
   const getActionSummary = () => {
     const actions = automation.actions;
     if (Array.isArray(actions)) {
-      return `${actions.length} action${actions.length !== 1 ? "s" : ""}`;
+      const count = actions.length;
+      if (count === 1) return "1 действие";
+      if (count >= 2 && count <= 4) return `${count} действия`;
+      return `${count} действий`;
     }
-    return "No actions";
+    return "Нет действий";
   };
 
   return (
@@ -148,17 +151,17 @@ export function AutomationCard({
         {/* Stats */}
         <div className="grid grid-cols-2 gap-4 p-3 bg-muted/50 rounded-lg">
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Triggered</p>
+            <p className="text-xs text-muted-foreground mb-1">Запусков</p>
             <p className="text-lg font-semibold">{automation.triggerCount}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Last Run</p>
+            <p className="text-xs text-muted-foreground mb-1">Последний запуск</p>
             <p className="text-sm font-medium">
               {automation.lastTriggered
                 ? formatDistanceToNow(new Date(automation.lastTriggered), {
                     addSuffix: true,
                   })
-                : "Never"}
+                : "Никогда"}
             </p>
           </div>
         </div>
@@ -179,7 +182,7 @@ export function AutomationCard({
               className="flex-1"
             >
               <Edit className="h-4 w-4 mr-2" />
-              Edit
+              Редактировать
             </Button>
           )}
           {onDuplicate && (
@@ -187,7 +190,7 @@ export function AutomationCard({
               variant="outline"
               size="sm"
               onClick={() => onDuplicate(automation.id)}
-              title="Duplicate"
+              title="Дублировать"
             >
               <Copy className="h-4 w-4" />
             </Button>
@@ -197,7 +200,7 @@ export function AutomationCard({
               variant="outline"
               size="sm"
               onClick={() => onViewLogs(automation.id)}
-              title="View Logs"
+              title="Просмотреть логи"
             >
               <FileText className="h-4 w-4" />
             </Button>
@@ -208,7 +211,7 @@ export function AutomationCard({
               size="sm"
               onClick={() => onDelete(automation.id)}
               className="text-destructive hover:text-destructive"
-              title="Delete"
+              title="Удалить"
             >
               <Trash2 className="h-4 w-4" />
             </Button>

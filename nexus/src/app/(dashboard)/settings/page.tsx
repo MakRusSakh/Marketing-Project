@@ -89,9 +89,9 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+        <h1 className="text-3xl font-bold text-foreground">Настройки</h1>
         <p className="mt-2 text-muted-foreground">
-          Manage your products, channels, brand voice, and platform settings
+          Управление продуктами, каналами, голосом бренда и настройками платформы
         </p>
       </div>
 
@@ -99,19 +99,19 @@ export default async function SettingsPage() {
         <TabsList className="grid w-full grid-cols-4 lg:w-auto">
           <TabsTrigger value="products" className="gap-2">
             <Package className="h-4 w-4" />
-            <span className="hidden sm:inline">Products</span>
+            <span className="hidden sm:inline">Продукты</span>
           </TabsTrigger>
           <TabsTrigger value="channels" className="gap-2">
             <Rss className="h-4 w-4" />
-            <span className="hidden sm:inline">Channels</span>
+            <span className="hidden sm:inline">Каналы</span>
           </TabsTrigger>
           <TabsTrigger value="brand-voice" className="gap-2">
             <MessageSquare className="h-4 w-4" />
-            <span className="hidden sm:inline">Brand Voice</span>
+            <span className="hidden sm:inline">Голос бренда</span>
           </TabsTrigger>
           <TabsTrigger value="general" className="gap-2">
             <SettingsIcon className="h-4 w-4" />
-            <span className="hidden sm:inline">General</span>
+            <span className="hidden sm:inline">Общие</span>
           </TabsTrigger>
         </TabsList>
 
@@ -120,15 +120,15 @@ export default async function SettingsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle>Products</CardTitle>
+                <CardTitle>Продукты</CardTitle>
                 <CardDescription>
-                  Manage your products and their configurations
+                  Управление вашими продуктами и их настройками
                 </CardDescription>
               </div>
               <Link href="/settings/products">
                 <Button>
                   <Plus className="mr-2 h-4 w-4" />
-                  Add Product
+                  Добавить продукт
                 </Button>
               </Link>
             </CardHeader>
@@ -136,14 +136,14 @@ export default async function SettingsPage() {
               {products.length === 0 ? (
                 <div className="text-center py-12">
                   <Package className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-semibold">No products yet</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Продуктов пока нет</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Get started by creating your first product.
+                    Начните с создания первого продукта.
                   </p>
                   <Link href="/settings/products">
                     <Button className="mt-4">
                       <Plus className="mr-2 h-4 w-4" />
-                      Create Product
+                      Создать продукт
                     </Button>
                   </Link>
                 </div>
@@ -165,9 +165,9 @@ export default async function SettingsPage() {
                           </p>
                         )}
                         <div className="flex gap-4 text-sm text-muted-foreground">
-                          <span>{product._count.contents} contents</span>
-                          <span>{product._count.automations} automations</span>
-                          <span>{product.channels.length} channels</span>
+                          <span>{product._count.contents} контента</span>
+                          <span>{product._count.automations} автоматизаций</span>
+                          <span>{product.channels.length} каналов</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -193,15 +193,15 @@ export default async function SettingsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle>Connected Channels</CardTitle>
+                <CardTitle>Подключённые каналы</CardTitle>
                 <CardDescription>
-                  Manage your social media channel connections
+                  Управление подключениями к социальным сетям
                 </CardDescription>
               </div>
               <Link href="/settings/channels">
                 <Button>
                   <Plus className="mr-2 h-4 w-4" />
-                  Connect Channel
+                  Подключить канал
                 </Button>
               </Link>
             </CardHeader>
@@ -209,14 +209,14 @@ export default async function SettingsPage() {
               {channels.length === 0 ? (
                 <div className="text-center py-12">
                   <Rss className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-semibold">No channels connected</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Каналы не подключены</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Connect your first social media channel to start publishing.
+                    Подключите первый канал в социальных сетях для начала публикации.
                   </p>
                   <Link href="/settings/channels">
                     <Button className="mt-4">
                       <Plus className="mr-2 h-4 w-4" />
-                      Connect Channel
+                      Подключить канал
                     </Button>
                   </Link>
                 </div>
@@ -242,24 +242,24 @@ export default async function SettingsPage() {
                                   {channel.status === "active" && (
                                     <Badge className="bg-green-500">
                                       <CheckCircle className="mr-1 h-3 w-3" />
-                                      Active
+                                      Активен
                                     </Badge>
                                   )}
                                   {channel.status === "error" && (
                                     <Badge variant="destructive">
                                       <XCircle className="mr-1 h-3 w-3" />
-                                      Error
+                                      Ошибка
                                     </Badge>
                                   )}
                                   {channel.status === "inactive" && (
                                     <Badge variant="secondary">
                                       <Clock className="mr-1 h-3 w-3" />
-                                      Inactive
+                                      Неактивен
                                     </Badge>
                                   )}
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                  Product: {channel.product.name}
+                                  Продукт: {channel.product.name}
                                 </p>
                                 {channel.errorMessage && (
                                   <p className="text-sm text-destructive">
@@ -270,7 +270,7 @@ export default async function SettingsPage() {
                             </div>
                             <div className="flex items-center gap-2">
                               <Button variant="outline" size="sm">
-                                Test Connection
+                                Проверить соединение
                               </Button>
                               <Button variant="ghost" size="icon">
                                 <Edit2 className="h-4 w-4" />
@@ -294,30 +294,30 @@ export default async function SettingsPage() {
         <TabsContent value="brand-voice" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Brand Voice</CardTitle>
+              <CardTitle>Голос бренда</CardTitle>
               <CardDescription>
-                Configure your brand voice and content style preferences
+                Настройка голоса бренда и стиля контента
               </CardDescription>
             </CardHeader>
             <CardContent>
               {products.length === 0 ? (
                 <div className="text-center py-12">
                   <MessageSquare className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-semibold">No products available</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Продукты недоступны</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Create a product first to configure its brand voice.
+                    Сначала создайте продукт, чтобы настроить голос бренда.
                   </p>
                   <Link href="/settings/products">
                     <Button className="mt-4">
                       <Plus className="mr-2 h-4 w-4" />
-                      Create Product
+                      Создать продукт
                     </Button>
                   </Link>
                 </div>
               ) : (
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="product-select">Select Product</Label>
+                    <Label htmlFor="product-select">Выберите продукт</Label>
                     <select
                       id="product-select"
                       className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -343,14 +343,14 @@ export default async function SettingsPage() {
         <TabsContent value="general" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>API Keys</CardTitle>
+              <CardTitle>API ключи</CardTitle>
               <CardDescription>
-                Manage your API keys and integrations
+                Управление API ключами и интеграциями
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="anthropic-key">Anthropic API Key</Label>
+                <Label htmlFor="anthropic-key">API ключ Anthropic</Label>
                 <div className="flex gap-2">
                   <Input
                     id="anthropic-key"
@@ -363,12 +363,12 @@ export default async function SettingsPage() {
                   </Button>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Used for AI-powered content generation
+                  Используется для генерации контента с помощью ИИ
                 </p>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="openai-key">OpenAI API Key (Optional)</Label>
+                <Label htmlFor="openai-key">API ключ OpenAI (опционально)</Label>
                 <div className="flex gap-2">
                   <Input
                     id="openai-key"
@@ -381,29 +381,29 @@ export default async function SettingsPage() {
                   </Button>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Alternative AI provider for content generation
+                  Альтернативный ИИ-провайдер для генерации контента
                 </p>
               </div>
 
               <div className="flex justify-end">
-                <Button>Save API Keys</Button>
+                <Button>Сохранить API ключи</Button>
               </div>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Notifications</CardTitle>
+              <CardTitle>Уведомления</CardTitle>
               <CardDescription>
-                Configure your notification preferences
+                Настройка ваших уведомлений
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label>Email Notifications</Label>
+                  <Label>Email уведомления</Label>
                   <p className="text-sm text-muted-foreground">
-                    Receive email updates about publications and automations
+                    Получать email обновления о публикациях и автоматизациях
                   </p>
                 </div>
                 <Switch defaultChecked={settings.emailNotifications || false} />
@@ -411,9 +411,9 @@ export default async function SettingsPage() {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label>Publication Alerts</Label>
+                  <Label>Оповещения о публикациях</Label>
                   <p className="text-sm text-muted-foreground">
-                    Get notified when content is published successfully
+                    Получать уведомления при успешной публикации контента
                   </p>
                 </div>
                 <Switch defaultChecked={settings.publicationAlerts || true} />
@@ -421,9 +421,9 @@ export default async function SettingsPage() {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label>Error Notifications</Label>
+                  <Label>Уведомления об ошибках</Label>
                   <p className="text-sm text-muted-foreground">
-                    Get alerted when publications or automations fail
+                    Получать оповещения при сбоях публикаций или автоматизаций
                   </p>
                 </div>
                 <Switch defaultChecked={settings.errorNotifications || true} />
@@ -431,30 +431,30 @@ export default async function SettingsPage() {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label>Weekly Summary</Label>
+                  <Label>Еженедельный отчёт</Label>
                   <p className="text-sm text-muted-foreground">
-                    Receive a weekly summary of your activity
+                    Получать еженедельную сводку вашей активности
                   </p>
                 </div>
                 <Switch defaultChecked={settings.weeklySummary || false} />
               </div>
 
               <div className="flex justify-end">
-                <Button>Save Preferences</Button>
+                <Button>Сохранить настройки</Button>
               </div>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Queue Settings</CardTitle>
+              <CardTitle>Настройки очереди</CardTitle>
               <CardDescription>
-                Configure background job processing
+                Настройка фоновой обработки задач
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="retry-attempts">Max Retry Attempts</Label>
+                <Label htmlFor="retry-attempts">Максимум повторных попыток</Label>
                 <Input
                   id="retry-attempts"
                   type="number"
@@ -463,12 +463,12 @@ export default async function SettingsPage() {
                   defaultValue={settings.maxRetryAttempts || 3}
                 />
                 <p className="text-sm text-muted-foreground">
-                  Number of times to retry failed publications
+                  Количество повторных попыток для неудачных публикаций
                 </p>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="retry-delay">Retry Delay (seconds)</Label>
+                <Label htmlFor="retry-delay">Задержка между попытками (секунды)</Label>
                 <Input
                   id="retry-delay"
                   type="number"
@@ -476,12 +476,12 @@ export default async function SettingsPage() {
                   defaultValue={settings.retryDelay || 60}
                 />
                 <p className="text-sm text-muted-foreground">
-                  Wait time between retry attempts
+                  Время ожидания между повторными попытками
                 </p>
               </div>
 
               <div className="flex justify-end">
-                <Button>Save Settings</Button>
+                <Button>Сохранить настройки</Button>
               </div>
             </CardContent>
           </Card>

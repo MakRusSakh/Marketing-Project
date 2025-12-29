@@ -180,10 +180,10 @@ export default function AnalyticsPage() {
         <div>
           <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
             <BarChart3 className="h-8 w-8" />
-            Analytics Dashboard
+            Аналитика
           </h1>
           <p className="mt-2 text-muted-foreground">
-            Track your content performance and engagement metrics
+            Отслеживайте эффективность контента и метрики вовлечённости
           </p>
         </div>
 
@@ -193,14 +193,14 @@ export default function AnalyticsPage() {
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <Select value={dateRange} onValueChange={setDateRange}>
               <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="Select range" />
+                <SelectValue placeholder="Выберите период" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="7">Last 7 days</SelectItem>
-                <SelectItem value="14">Last 14 days</SelectItem>
-                <SelectItem value="30">Last 30 days</SelectItem>
-                <SelectItem value="60">Last 60 days</SelectItem>
-                <SelectItem value="90">Last 90 days</SelectItem>
+                <SelectItem value="7">Последние 7 дней</SelectItem>
+                <SelectItem value="14">Последние 14 дней</SelectItem>
+                <SelectItem value="30">Последние 30 дней</SelectItem>
+                <SelectItem value="60">Последние 60 дней</SelectItem>
+                <SelectItem value="90">Последние 90 дней</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -208,13 +208,13 @@ export default function AnalyticsPage() {
           {/* Product Selector */}
           <Select value={selectedProduct} onValueChange={setSelectedProduct}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select product" />
+              <SelectValue placeholder="Выберите продукт" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Products</SelectItem>
-              <SelectItem value="product-1">Product Alpha</SelectItem>
-              <SelectItem value="product-2">Product Beta</SelectItem>
-              <SelectItem value="product-3">Product Gamma</SelectItem>
+              <SelectItem value="all">Все продукты</SelectItem>
+              <SelectItem value="product-1">Продукт Альфа</SelectItem>
+              <SelectItem value="product-2">Продукт Бета</SelectItem>
+              <SelectItem value="product-3">Продукт Гамма</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -225,7 +225,7 @@ export default function AnalyticsPage() {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Posts
+              Всего постов
             </CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -234,7 +234,7 @@ export default function AnalyticsPage() {
             <div className="flex items-center mt-1 text-xs">
               <TrendingUp className="h-3 w-3 text-green-600 mr-1" />
               <span className="font-medium text-green-600">+12.5%</span>
-              <span className="text-muted-foreground ml-1">from last period</span>
+              <span className="text-muted-foreground ml-1">за прошлый период</span>
             </div>
           </CardContent>
         </Card>
@@ -242,7 +242,7 @@ export default function AnalyticsPage() {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Engagement
+              Вовлечённость
             </CardTitle>
             <Heart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -253,7 +253,7 @@ export default function AnalyticsPage() {
             <div className="flex items-center mt-1 text-xs">
               <TrendingUp className="h-3 w-3 text-green-600 mr-1" />
               <span className="font-medium text-green-600">+18.2%</span>
-              <span className="text-muted-foreground ml-1">from last period</span>
+              <span className="text-muted-foreground ml-1">за прошлый период</span>
             </div>
           </CardContent>
         </Card>
@@ -261,7 +261,7 @@ export default function AnalyticsPage() {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Reach
+              Охват
             </CardTitle>
             <Eye className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -272,7 +272,7 @@ export default function AnalyticsPage() {
             <div className="flex items-center mt-1 text-xs">
               <TrendingUp className="h-3 w-3 text-green-600 mr-1" />
               <span className="font-medium text-green-600">+24.8%</span>
-              <span className="text-muted-foreground ml-1">from last period</span>
+              <span className="text-muted-foreground ml-1">за прошлый период</span>
             </div>
           </CardContent>
         </Card>
@@ -280,7 +280,7 @@ export default function AnalyticsPage() {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Engagement Rate
+              Коэф. вовлечённости
             </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -291,7 +291,7 @@ export default function AnalyticsPage() {
             <div className="flex items-center mt-1 text-xs">
               <TrendingUp className="h-3 w-3 text-green-600 mr-1" />
               <span className="font-medium text-green-600">+3.1%</span>
-              <span className="text-muted-foreground ml-1">from last period</span>
+              <span className="text-muted-foreground ml-1">за прошлый период</span>
             </div>
           </CardContent>
         </Card>
@@ -302,9 +302,9 @@ export default function AnalyticsPage() {
         {/* Publications Over Time */}
         <Card>
           <CardHeader>
-            <CardTitle>Publications Over Time</CardTitle>
+            <CardTitle>Публикации по времени</CardTitle>
             <CardDescription>
-              Daily publication count for the selected period
+              Количество публикаций за выбранный период
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -321,9 +321,9 @@ export default function AnalyticsPage() {
         {/* Engagement Trend */}
         <Card>
           <CardHeader>
-            <CardTitle>Engagement Trend</CardTitle>
+            <CardTitle>Динамика вовлечённости</CardTitle>
             <CardDescription>
-              Total engagement metrics over time
+              Метрики вовлечённости по времени
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -340,9 +340,9 @@ export default function AnalyticsPage() {
         {/* Publications by Platform */}
         <Card>
           <CardHeader>
-            <CardTitle>Publications by Platform</CardTitle>
+            <CardTitle>Публикации по платформам</CardTitle>
             <CardDescription>
-              Distribution of posts across platforms
+              Распределение постов по платформам
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -359,9 +359,9 @@ export default function AnalyticsPage() {
         {/* Channel Performance Comparison */}
         <Card>
           <CardHeader>
-            <CardTitle>Channel Performance</CardTitle>
+            <CardTitle>Эффективность каналов</CardTitle>
             <CardDescription>
-              Compare performance across different channels
+              Сравнение эффективности различных каналов
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -378,7 +378,7 @@ export default function AnalyticsPage() {
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-medium">{platform.platform}</span>
                       <span className="text-muted-foreground">
-                        {platform.count} posts ({percentage}%)
+                        {platform.count} постов ({percentage}%)
                       </span>
                     </div>
                     <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
@@ -400,10 +400,10 @@ export default function AnalyticsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            Top Performing Content
+            Лучший контент
           </CardTitle>
           <CardDescription>
-            Your best performing posts ranked by total engagement
+            Ваши лучшие посты по уровню вовлечённости
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -427,7 +427,7 @@ export default function AnalyticsPage() {
                     </div>
                     <div className="flex items-center gap-1">
                       <Heart className="h-3 w-3" />
-                      <span>{content.engagement.toLocaleString()} engagements</span>
+                      <span>{content.engagement.toLocaleString()} взаимодействий</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 flex-wrap">

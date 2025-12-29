@@ -50,15 +50,15 @@ export function RescheduleModal({
 
   const quickOptions = [
     {
-      label: "In 1 hour",
+      label: "Через 1 час",
       date: addHours(new Date(), 1),
     },
     {
-      label: "In 3 hours",
+      label: "Через 3 часа",
       date: addHours(new Date(), 3),
     },
     {
-      label: "Tomorrow 9 AM",
+      label: "Завтра в 9:00",
       date: (() => {
         const tomorrow = addDays(new Date(), 1);
         tomorrow.setHours(9, 0, 0, 0);
@@ -66,7 +66,7 @@ export function RescheduleModal({
       })(),
     },
     {
-      label: "Tomorrow 2 PM",
+      label: "Завтра в 14:00",
       date: (() => {
         const tomorrow = addDays(new Date(), 1);
         tomorrow.setHours(14, 0, 0, 0);
@@ -74,7 +74,7 @@ export function RescheduleModal({
       })(),
     },
     {
-      label: "Next week",
+      label: "Через неделю",
       date: addWeeks(new Date(), 1),
     },
   ];
@@ -83,16 +83,16 @@ export function RescheduleModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Reschedule Publication</DialogTitle>
+          <DialogTitle>Перенести публикацию</DialogTitle>
           <DialogDescription>
-            Choose a new date and time for this publication
+            Выберите новую дату и время для этой публикации
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
           {/* Quick Time Options */}
           <div className="space-y-3">
-            <Label className="text-sm font-medium">Quick Select</Label>
+            <Label className="text-sm font-medium">Быстрый выбор</Label>
             <div className="grid grid-cols-2 gap-2">
               {quickOptions.map((option) => (
                 <Button
@@ -111,7 +111,7 @@ export function RescheduleModal({
           {/* Date Picker */}
           <div className="space-y-2">
             <Label htmlFor="date" className="text-sm font-medium">
-              Date
+              Дата
             </Label>
             <div className="relative">
               <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -129,7 +129,7 @@ export function RescheduleModal({
           {/* Time Picker */}
           <div className="space-y-2">
             <Label htmlFor="time" className="text-sm font-medium">
-              Time
+              Время
             </Label>
             <div className="relative">
               <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -146,7 +146,7 @@ export function RescheduleModal({
           {/* Preview */}
           <div className="p-3 bg-muted rounded-lg">
             <p className="text-sm text-muted-foreground mb-1">
-              New scheduled time:
+              Новое время публикации:
             </p>
             <p className="text-sm font-medium">
               {format(new Date(`${selectedDate}T${selectedTime}`), "PPpp")}
@@ -161,10 +161,10 @@ export function RescheduleModal({
             onClick={() => onOpenChange(false)}
             disabled={isLoading}
           >
-            Cancel
+            Отмена
           </Button>
           <Button type="button" onClick={handleConfirm} disabled={isLoading}>
-            {isLoading ? "Rescheduling..." : "Reschedule"}
+            {isLoading ? "Переносим..." : "Перенести"}
           </Button>
         </DialogFooter>
       </DialogContent>
