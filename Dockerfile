@@ -14,7 +14,7 @@ RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY nexus/. .
+COPY ./nexus/ .
 
 # Generate Prisma Client
 RUN npx prisma generate
