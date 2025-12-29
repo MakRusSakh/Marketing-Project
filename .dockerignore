@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+nexus/node_modules
+.pnpm-store
+
+# Build output
+.next
+nexus/.next
+out
+build
+dist
+
+# Development
+.env*.local
+.env.development
+*.log
+npm-debug.log*
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Tests
+coverage
+.nyc_output
