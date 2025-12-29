@@ -1,7 +1,11 @@
+// Force dynamic rendering - this page needs database access
+export const dynamic = 'force-dynamic';
+
 import { KPICards } from "@/components/dashboard/kpi-cards";
 import { QueuePreview } from "@/components/dashboard/queue-preview";
 import { QuickActions } from "@/components/dashboard/quick-actions";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
+import { prisma } from "@/lib/prisma";
 import {
   FileText,
   CheckCircle,
@@ -9,150 +13,142 @@ import {
   FileEdit,
 } from "lucide-react";
 import type { KPIMetric } from "@/components/dashboard/kpi-cards";
-import type { QueuedPost } from "@/components/dashboard/queue-preview";
-import type { ActivityEvent } from "@/components/dashboard/recent-activity";
 
-// Mock data - In production, this would come from your API/database
-const mockMetrics: KPIMetric[] = [
-  {
-    title: "Total Content",
-    value: 142,
-    trend: "up",
-    trendValue: "+12%",
-    icon: FileText,
-  },
-  {
-    title: "Published",
-    value: 89,
-    trend: "up",
-    trendValue: "+8%",
-    icon: CheckCircle,
-  },
-  {
-    title: "Scheduled",
-    value: 23,
-    trend: "down",
-    trendValue: "-3%",
-    icon: Calendar,
-  },
-  {
-    title: "Drafts",
-    value: 30,
-    trend: "neutral",
-    trendValue: "No change",
-    icon: FileEdit,
-  },
-];
+// Fetch real metrics from database
+async function getMetrics(): Promise<KPIMetric[]> {
+  try {
+    const [totalContent, published, scheduled, drafts] = await Promise.all([
+      prisma.content.count(),
+      prisma.publication.count({ where: { status: "published" } }),
+      prisma.publication.count({ where: { status: "scheduled" } }),
+      prisma.content.count({ where: { status: "draft" } }),
+    ]);
 
-const mockQueuedPosts: QueuedPost[] = [
-  {
-    id: "1",
-    platform: "twitter",
-    contentPreview: "Excited to announce our new feature launch! 🚀 Check out what's new...",
-    scheduledAt: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
-    contentType: "thread",
-  },
-  {
-    id: "2",
-    platform: "linkedin",
-    contentPreview: "5 ways to improve your content marketing strategy in 2025",
-    scheduledAt: new Date(Date.now() + 5 * 60 * 60 * 1000), // 5 hours from now
-    contentType: "post",
-  },
-  {
-    id: "3",
-    platform: "facebook",
-    contentPreview: "Join us for an exclusive webinar on digital marketing trends",
-    scheduledAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day from now
-    contentType: "post",
-  },
-  {
-    id: "4",
-    platform: "instagram",
-    contentPreview: "Behind the scenes: Our team working on the next big thing",
-    scheduledAt: new Date(Date.now() + 48 * 60 * 60 * 1000), // 2 days from now
-    contentType: "story",
-  },
-  {
-    id: "5",
-    platform: "twitter",
-    contentPreview: "Quick tip: Use these 3 strategies to boost engagement",
-    scheduledAt: new Date(Date.now() + 72 * 60 * 60 * 1000), // 3 days from now
-    contentType: "post",
-  },
-];
+    return [
+      {
+        title: "Всего контента",
+        value: totalContent,
+        trend: "neutral" as const,
+        trendValue: "",
+        icon: FileText,
+      },
+      {
+        title: "Опубликовано",
+        value: published,
+        trend: "neutral" as const,
+        trendValue: "",
+        icon: CheckCircle,
+      },
+      {
+        title: "Запланировано",
+        value: scheduled,
+        trend: "neutral" as const,
+        trendValue: "",
+        icon: Calendar,
+      },
+      {
+        title: "Черновики",
+        value: drafts,
+        trend: "neutral" as const,
+        trendValue: "",
+        icon: FileEdit,
+      },
+    ];
+  } catch (error) {
+    console.error("Error fetching metrics:", error);
+    return [
+      { title: "Всего контента", value: 0, trend: "neutral" as const, trendValue: "", icon: FileText },
+      { title: "Опубликовано", value: 0, trend: "neutral" as const, trendValue: "", icon: CheckCircle },
+      { title: "Запланировано", value: 0, trend: "neutral" as const, trendValue: "", icon: Calendar },
+      { title: "Черновики", value: 0, trend: "neutral" as const, trendValue: "", icon: FileEdit },
+    ];
+  }
+}
 
-const mockActivities: ActivityEvent[] = [
-  {
-    id: "1",
-    type: "published",
-    description: "Successfully published post to Twitter",
-    timestamp: new Date(Date.now() - 15 * 60 * 1000), // 15 minutes ago
-    platform: "twitter",
-    contentType: "post",
-  },
-  {
-    id: "2",
-    type: "generated",
-    description: "AI generated new content: 'Top 10 Marketing Trends'",
-    timestamp: new Date(Date.now() - 45 * 60 * 1000), // 45 minutes ago
-    contentType: "article",
-  },
-  {
-    id: "3",
-    type: "scheduled",
-    description: "Scheduled LinkedIn post for tomorrow at 9 AM",
-    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
-    platform: "linkedin",
-    contentType: "post",
-  },
-  {
-    id: "4",
-    type: "published",
-    description: "Successfully published Instagram story",
-    timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
-    platform: "instagram",
-    contentType: "story",
-  },
-  {
-    id: "5",
-    type: "drafted",
-    description: "Created new draft: 'Product Launch Announcement'",
-    timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
-    contentType: "post",
-  },
-  {
-    id: "6",
-    type: "scheduled",
-    description: "Scheduled Facebook post for weekend",
-    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
-    platform: "facebook",
-    contentType: "post",
-  },
-  {
-    id: "7",
-    type: "published",
-    description: "Published Twitter thread about our new features",
-    timestamp: new Date(Date.now() - 36 * 60 * 60 * 1000), // 1.5 days ago
-    platform: "twitter",
-    contentType: "thread",
-  },
-  {
-    id: "8",
-    type: "generated",
-    description: "AI adapted content for multiple platforms",
-    timestamp: new Date(Date.now() - 48 * 60 * 60 * 1000), // 2 days ago
-    contentType: "multi-platform",
-  },
-];
+// Fetch queued posts
+async function getQueuedPosts() {
+  try {
+    const publications = await prisma.publication.findMany({
+      where: { status: "scheduled" },
+      include: { content: true, channel: true },
+      orderBy: { scheduledAt: "asc" },
+      take: 5,
+    });
 
-// Server Component - This would fetch real data in production
+    return publications.map((pub) => ({
+      id: pub.id,
+      platform: pub.channel.platform.toLowerCase(),
+      contentPreview: pub.content.body?.substring(0, 100) || "Без описания",
+      scheduledAt: pub.scheduledAt || new Date(),
+      contentType: "post",
+    }));
+  } catch (error) {
+    console.error("Error fetching queued posts:", error);
+    return [];
+  }
+}
+
+// Fetch recent activity
+async function getRecentActivity() {
+  try {
+    const [recentPublications, recentContent] = await Promise.all([
+      prisma.publication.findMany({
+        where: { status: "published" },
+        include: { channel: true, content: true },
+        orderBy: { publishedAt: "desc" },
+        take: 5,
+      }),
+      prisma.content.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      }),
+    ]);
+
+    const activities = [
+      ...recentPublications.map((pub) => ({
+        id: pub.id,
+        type: "published" as const,
+        description: `Опубликовано в ${pub.channel.platform}`,
+        timestamp: pub.publishedAt || new Date(),
+        platform: pub.channel.platform.toLowerCase(),
+        contentType: "post",
+      })),
+      ...recentContent.map((content) => ({
+        id: content.id,
+        type: content.status === "draft" ? "drafted" as const : "generated" as const,
+        description: content.title || "Новый контент",
+        timestamp: content.createdAt,
+        contentType: "post",
+      })),
+    ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+     .slice(0, 8);
+
+    return activities;
+  } catch (error) {
+    console.error("Error fetching recent activity:", error);
+    return [];
+  }
+}
+
+// Fetch products for selector
+async function getProducts() {
+  try {
+    return await prisma.product.findMany({
+      orderBy: { name: "asc" },
+    });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+}
+
 export default async function DashboardPage() {
-  // In production, you would fetch data here:
-  // const metrics = await getMetrics();
-  // const queuedPosts = await getQueuedPosts();
-  // const activities = await getRecentActivities();
-  // const products = await getProducts();
+  const [metrics, queuedPosts, activities, products] = await Promise.all([
+    getMetrics(),
+    getQueuedPosts(),
+    getRecentActivity(),
+    getProducts(),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -160,47 +156,47 @@ export default async function DashboardPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
-            Welcome to Marketing Nexus
+            Добро пожаловать в NEXUS
           </h1>
           <p className="mt-2 text-muted-foreground">
-            Your unified platform for content creation, publishing, and analytics
+            Единая платформа для создания, публикации и аналитики контента
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <label htmlFor="product-select" className="text-sm font-medium text-foreground">
-            Product:
-          </label>
-          <select
-            id="product-select"
-            className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            defaultValue="all"
-          >
-            <option value="all">All Products</option>
-            <option value="product-1">Product 1</option>
-            <option value="product-2">Product 2</option>
-            <option value="product-3">Product 3</option>
-          </select>
-        </div>
+        {products.length > 0 && (
+          <div className="flex items-center gap-3">
+            <label htmlFor="product-select" className="text-sm font-medium text-foreground">
+              Продукт:
+            </label>
+            <select
+              id="product-select"
+              className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              defaultValue="all"
+            >
+              <option value="all">Все продукты</option>
+              {products.map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       {/* KPI Cards Grid */}
-      <KPICards metrics={mockMetrics} />
+      <KPICards metrics={metrics} />
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - 2/3 width on large screens */}
+        {/* Left Column */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Quick Actions Widget */}
           <QuickActions />
-
-          {/* Queue Preview Widget */}
-          <QueuePreview posts={mockQueuedPosts} />
+          <QueuePreview posts={queuedPosts} />
         </div>
 
-        {/* Right Column - 1/3 width on large screens */}
+        {/* Right Column */}
         <div className="lg:col-span-1">
-          {/* Recent Activity Feed */}
-          <RecentActivity events={mockActivities} maxEvents={8} />
+          <RecentActivity events={activities} maxEvents={8} />
         </div>
       </div>
     </div>

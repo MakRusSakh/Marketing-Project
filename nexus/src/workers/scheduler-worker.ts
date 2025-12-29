@@ -58,7 +58,7 @@ async function checkDuePublications() {
 
     let queued = 0;
     let skipped = 0;
-    let missedSchedules: string[] = [];
+    const missedSchedules: string[] = [];
 
     for (const publication of duePublications) {
       // Check if channel is active

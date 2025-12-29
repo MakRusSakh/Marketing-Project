@@ -23,29 +23,29 @@ export interface QuickActionsProps {
 
 const defaultActions: QuickAction[] = [
   {
-    label: "Create Content",
-    description: "Generate new content with AI",
+    label: "Создать контент",
+    description: "Генерация контента с помощью ИИ",
     icon: PenSquare,
-    href: "/content/create",
+    href: "/content",
     variant: "default",
   },
   {
-    label: "New Campaign",
-    description: "Start a marketing campaign",
+    label: "Новая автоматизация",
+    description: "Настроить автопубликацию",
     icon: Sparkles,
-    href: "/campaigns/create",
+    href: "/automations/new",
     variant: "outline",
   },
   {
-    label: "View Analytics",
-    description: "See your performance metrics",
+    label: "Аналитика",
+    description: "Посмотреть статистику",
     icon: BarChart3,
     href: "/analytics",
     variant: "outline",
   },
   {
-    label: "Schedule Post",
-    description: "Plan your content calendar",
+    label: "Очередь публикаций",
+    description: "Планировать посты",
     icon: Calendar,
     href: "/queue",
     variant: "outline",
@@ -66,7 +66,7 @@ export function QuickActions({ actions = defaultActions, className }: QuickActio
   return (
     <Card className={cn("", className)}>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Quick Actions</CardTitle>
+        <CardTitle className="text-lg font-semibold">Быстрые действия</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

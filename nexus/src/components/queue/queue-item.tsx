@@ -89,25 +89,25 @@ const platformConfig = {
 const statusConfig = {
   scheduled: {
     icon: Clock,
-    label: "Scheduled",
+    label: "Запланировано",
     variant: "secondary" as const,
     color: "text-blue-600 bg-blue-50",
   },
   publishing: {
     icon: Clock,
-    label: "Publishing",
+    label: "Публикуется",
     variant: "default" as const,
     color: "text-yellow-600 bg-yellow-50",
   },
   published: {
     icon: CheckCircle2,
-    label: "Published",
+    label: "Опубликовано",
     variant: "default" as const,
     color: "text-green-600 bg-green-50",
   },
   failed: {
     icon: XCircle,
-    label: "Failed",
+    label: "Ошибка",
     variant: "destructive" as const,
     color: "text-red-600 bg-red-50",
   },
@@ -136,7 +136,7 @@ export function QueueItem({
     : null;
 
   const displayTime = publishedDate || scheduledDate;
-  const timeLabel = publishedDate ? "Published" : "Scheduled for";
+  const timeLabel = publishedDate ? "Опубликовано" : "Запланировано на";
 
   return (
     <Card className="hover:shadow-md transition-shadow">
@@ -188,12 +188,12 @@ export function QueueItem({
                     {isExpanded ? (
                       <>
                         <ChevronUp className="h-3 w-3 mr-1" />
-                        Show less
+                        Свернуть
                       </>
                     ) : (
                       <>
                         <ChevronDown className="h-3 w-3 mr-1" />
-                        Show more
+                        Показать ещё
                       </>
                     )}
                   </Button>
@@ -209,7 +209,7 @@ export function QueueItem({
                   size="icon"
                   onClick={() => onView(publication.id)}
                   className="h-8 w-8"
-                  title="View details"
+                  title="Подробнее"
                 >
                   <Eye className="h-4 w-4" />
                 </Button>
@@ -220,7 +220,7 @@ export function QueueItem({
                   size="icon"
                   onClick={() => onEdit(publication.id)}
                   className="h-8 w-8"
-                  title="Edit"
+                  title="Редактировать"
                 >
                   <Edit className="h-4 w-4" />
                 </Button>
@@ -231,7 +231,7 @@ export function QueueItem({
                   size="icon"
                   onClick={() => onReschedule(publication.id)}
                   className="h-8 w-8"
-                  title="Reschedule"
+                  title="Перенести"
                 >
                   <Calendar className="h-4 w-4" />
                 </Button>
@@ -242,7 +242,7 @@ export function QueueItem({
                   size="icon"
                   onClick={() => onCancel(publication.id)}
                   className="h-8 w-8 text-destructive hover:text-destructive"
-                  title="Cancel"
+                  title="Отменить"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -283,7 +283,7 @@ export function QueueItem({
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >
-                View on platform
+                Открыть на платформе
               </a>
             )}
           </div>
@@ -291,7 +291,7 @@ export function QueueItem({
           {/* Error Message */}
           {publication.status === "failed" && publication.errorMessage && (
             <div className="p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
-              <span className="font-medium">Error:</span> {publication.errorMessage}
+              <span className="font-medium">Ошибка:</span> {publication.errorMessage}
             </div>
           )}
         </div>

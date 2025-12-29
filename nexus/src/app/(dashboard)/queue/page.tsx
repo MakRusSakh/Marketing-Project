@@ -120,7 +120,7 @@ export default function QueuePage() {
   };
 
   const handleBulkCancel = async () => {
-    if (!confirm(`Cancel ${selectedItems.size} publication(s)?`)) return;
+    if (!confirm(`Отменить ${selectedItems.size} публикаций?`)) return;
 
     try {
       await Promise.all(
@@ -148,7 +148,7 @@ export default function QueuePage() {
   };
 
   const handleCancel = async (id: string) => {
-    if (!confirm("Cancel this publication?")) return;
+    if (!confirm("Отменить эту публикацию?")) return;
 
     try {
       await fetch(`/api/publications/${id}`, {
@@ -196,14 +196,14 @@ export default function QueuePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Queue</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Очередь публикаций</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Manage scheduled and published content
+            Управление запланированным и опубликованным контентом
           </p>
         </div>
         <Button onClick={fetchPublications} variant="outline" size="sm">
           <RefreshCw className="h-4 w-4 mr-2" />
-          Refresh
+          Обновить
         </Button>
       </div>
 
@@ -211,38 +211,38 @@ export default function QueuePage() {
       <div className="bg-white p-4 rounded-lg shadow-sm border border-border space-y-4">
         <div className="flex items-center gap-2 text-sm font-medium">
           <Filter className="h-4 w-4" />
-          Filters
+          Фильтры
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Status Filter */}
           <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">Статус</Label>
             <Select value={selectedStatus} onValueChange={setSelectedStatus}>
               <SelectTrigger id="status">
-                <SelectValue placeholder="All statuses" />
+                <SelectValue placeholder="Все статусы" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All statuses</SelectItem>
-                <SelectItem value="scheduled">Scheduled</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-                <SelectItem value="failed">Failed</SelectItem>
+                <SelectItem value="all">Все статусы</SelectItem>
+                <SelectItem value="scheduled">Запланировано</SelectItem>
+                <SelectItem value="published">Опубликовано</SelectItem>
+                <SelectItem value="failed">Ошибка</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Platform Filter */}
           <div className="space-y-2">
-            <Label htmlFor="platform">Platform</Label>
+            <Label htmlFor="platform">Платформа</Label>
             <Select
               value={selectedPlatform}
               onValueChange={setSelectedPlatform}
             >
               <SelectTrigger id="platform">
-                <SelectValue placeholder="All platforms" />
+                <SelectValue placeholder="Все платформы" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All platforms</SelectItem>
+                <SelectItem value="all">Все платформы</SelectItem>
                 {platforms.map((platform) => (
                   <SelectItem key={platform} value={platform}>
                     {platform.charAt(0).toUpperCase() + platform.slice(1)}
@@ -254,7 +254,7 @@ export default function QueuePage() {
 
           {/* Date From */}
           <div className="space-y-2">
-            <Label htmlFor="dateFrom">From Date</Label>
+            <Label htmlFor="dateFrom">С даты</Label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -269,7 +269,7 @@ export default function QueuePage() {
 
           {/* Date To */}
           <div className="space-y-2">
-            <Label htmlFor="dateTo">To Date</Label>
+            <Label htmlFor="dateTo">По дату</Label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -288,7 +288,7 @@ export default function QueuePage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Search content..."
+            placeholder="Поиск контента..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -305,19 +305,19 @@ export default function QueuePage() {
               onCheckedChange={handleSelectAll}
             />
             <span className="text-sm font-medium">
-              {selectedItems.size} item(s) selected
+              Выбрано: {selectedItems.size}
             </span>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={handleBulkCancel}>
-              Cancel Selected
+              Отменить выбранные
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setSelectedItems(new Set())}
             >
-              Clear Selection
+              Сбросить выбор
             </Button>
           </div>
         </div>
@@ -329,22 +329,22 @@ export default function QueuePage() {
           <div className="text-center py-12">
             <RefreshCw className="h-8 w-8 animate-spin mx-auto text-muted-foreground" />
             <p className="mt-2 text-sm text-muted-foreground">
-              Loading publications...
+              Загрузка публикаций...
             </p>
           </div>
         ) : filteredPublications.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-lg border border-border">
             <Inbox className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No publications found
+              Публикации не найдены
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
               {publications.length === 0
-                ? "Schedule your first publication to get started"
-                : "Try adjusting your filters"}
+                ? "Запланируйте первую публикацию, чтобы начать"
+                : "Попробуйте изменить фильтры"}
             </p>
             {publications.length === 0 && (
-              <Button>Create Publication</Button>
+              <Button>Создать публикацию</Button>
             )}
           </div>
         ) : (
@@ -359,7 +359,7 @@ export default function QueuePage() {
                 onCheckedChange={handleSelectAll}
               />
               <Label className="text-sm text-muted-foreground cursor-pointer">
-                Select all
+                Выбрать все
               </Label>
             </div>
 

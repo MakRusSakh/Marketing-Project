@@ -46,30 +46,30 @@ interface AutomationFormData {
 }
 
 const STEPS = [
-  { id: 1, name: "Basic Info", icon: MessageSquare },
-  { id: 2, name: "Trigger", icon: Zap },
-  { id: 3, name: "Conditions", icon: Activity },
-  { id: 4, name: "Actions", icon: Bell },
-  { id: 5, name: "Review", icon: Check },
+  { id: 1, name: "Основные данные", icon: MessageSquare },
+  { id: 2, name: "Триггер", icon: Zap },
+  { id: 3, name: "Условия", icon: Activity },
+  { id: 4, name: "Действия", icon: Bell },
+  { id: 5, name: "Проверка", icon: Check },
 ];
 
 const TRIGGER_TYPES = [
   {
     id: "webhook",
     name: "Webhook",
-    description: "Trigger when a webhook is received",
+    description: "Запуск при получении webhook",
     icon: Webhook,
   },
   {
     id: "schedule",
-    name: "Schedule",
-    description: "Trigger on a recurring schedule",
+    name: "Расписание",
+    description: "Запуск по расписанию",
     icon: Calendar,
   },
   {
     id: "event",
-    name: "Event",
-    description: "Trigger when a specific event occurs",
+    name: "Событие",
+    description: "Запуск при наступлении события",
     icon: Activity,
   },
 ];
@@ -77,26 +77,26 @@ const TRIGGER_TYPES = [
 const ACTION_TYPES = [
   {
     id: "generate_content",
-    name: "Generate Content",
-    description: "Generate AI content from a prompt",
+    name: "Генерация контента",
+    description: "Генерация контента с помощью ИИ",
     icon: MessageSquare,
   },
   {
     id: "publish_to_platform",
-    name: "Publish to Platform",
-    description: "Publish content to a social media platform",
+    name: "Публикация на платформу",
+    description: "Публикация контента в социальной сети",
     icon: Twitter,
   },
   {
     id: "schedule_publication",
-    name: "Schedule Publication",
-    description: "Schedule content for future publishing",
+    name: "Запланировать публикацию",
+    description: "Запланировать контент для публикации",
     icon: Calendar,
   },
   {
     id: "send_notification",
-    name: "Send Notification",
-    description: "Send an email or webhook notification",
+    name: "Отправить уведомление",
+    description: "Отправить email или webhook уведомление",
     icon: Bell,
   },
 ];
@@ -181,14 +181,14 @@ export default function NewAutomationPage() {
           onClick={() => router.push("/automations")}
         >
           <ChevronLeft className="h-4 w-4 mr-2" />
-          Back to Automations
+          Назад к автоматизациям
         </Button>
       </div>
 
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Create Automation</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Создать автоматизацию</h1>
         <p className="mt-1 text-sm text-gray-600">
-          Set up automated workflows for your content
+          Настройте автоматизированные рабочие процессы для вашего контента
         </p>
       </div>
 
@@ -196,7 +196,7 @@ export default function NewAutomationPage() {
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
           <span className="font-medium">
-            Step {currentStep} of {STEPS.length}
+            Шаг {currentStep} из {STEPS.length}
           </span>
           <span className="text-muted-foreground">{STEPS[currentStep - 1].name}</span>
         </div>
@@ -259,28 +259,28 @@ export default function NewAutomationPage() {
           {currentStep === 1 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
+                <h2 className="text-xl font-semibold mb-4">Основная информация</h2>
                 <p className="text-sm text-muted-foreground">
-                  Provide basic details about your automation
+                  Укажите основные данные вашей автоматизации
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Automation Name *</Label>
+                  <Label htmlFor="name">Название автоматизации *</Label>
                   <Input
                     id="name"
-                    placeholder="e.g., Auto-post to Twitter on new release"
+                    placeholder="например, Автопост в Twitter при новом релизе"
                     value={formData.name}
                     onChange={(e) => updateFormData({ name: e.target.value })}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description">Описание</Label>
                   <Textarea
                     id="description"
-                    placeholder="Describe what this automation does..."
+                    placeholder="Опишите, что делает эта автоматизация..."
                     value={formData.description}
                     onChange={(e) =>
                       updateFormData({ description: e.target.value })
@@ -290,7 +290,7 @@ export default function NewAutomationPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="product">Product</Label>
+                  <Label htmlFor="product">Продукт</Label>
                   <Select
                     value={formData.productId}
                     onValueChange={(value) =>
@@ -298,10 +298,10 @@ export default function NewAutomationPage() {
                     }
                   >
                     <SelectTrigger id="product">
-                      <SelectValue placeholder="Select a product" />
+                      <SelectValue placeholder="Выберите продукт" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="default">Default Product</SelectItem>
+                      <SelectItem value="default">Продукт по умолчанию</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -313,9 +313,9 @@ export default function NewAutomationPage() {
           {currentStep === 2 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold mb-4">Choose Trigger</h2>
+                <h2 className="text-xl font-semibold mb-4">Выберите триггер</h2>
                 <p className="text-sm text-muted-foreground">
-                  Select what will start this automation
+                  Выберите, что будет запускать эту автоматизацию
                 </p>
               </div>
 
@@ -363,10 +363,10 @@ export default function NewAutomationPage() {
               {/* Trigger Configuration */}
               {formData.triggerType === "schedule" && (
                 <div className="p-4 border border-border rounded-lg space-y-4">
-                  <h3 className="font-medium">Schedule Configuration</h3>
+                  <h3 className="font-medium">Настройка расписания</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Frequency</Label>
+                      <Label>Частота</Label>
                       <Select
                         value={formData.triggerConfig.frequency || ""}
                         onValueChange={(value) =>
@@ -379,18 +379,18 @@ export default function NewAutomationPage() {
                         }
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select frequency" />
+                          <SelectValue placeholder="Выберите частоту" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="hourly">Hourly</SelectItem>
-                          <SelectItem value="daily">Daily</SelectItem>
-                          <SelectItem value="weekly">Weekly</SelectItem>
-                          <SelectItem value="monthly">Monthly</SelectItem>
+                          <SelectItem value="hourly">Ежечасно</SelectItem>
+                          <SelectItem value="daily">Ежедневно</SelectItem>
+                          <SelectItem value="weekly">Еженедельно</SelectItem>
+                          <SelectItem value="monthly">Ежемесячно</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Time</Label>
+                      <Label>Время</Label>
                       <Input
                         type="time"
                         value={formData.triggerConfig.time || ""}
@@ -410,11 +410,11 @@ export default function NewAutomationPage() {
 
               {formData.triggerType === "webhook" && (
                 <div className="p-4 border border-border rounded-lg space-y-4">
-                  <h3 className="font-medium">Webhook Configuration</h3>
+                  <h3 className="font-medium">Настройка Webhook</h3>
                   <div className="space-y-2">
-                    <Label>Event Type</Label>
+                    <Label>Тип события</Label>
                     <Input
-                      placeholder="e.g., product.released"
+                      placeholder="например, product.released"
                       value={formData.triggerConfig.eventType || ""}
                       onChange={(e) =>
                         updateFormData({
@@ -431,9 +431,9 @@ export default function NewAutomationPage() {
 
               {formData.triggerType === "event" && (
                 <div className="p-4 border border-border rounded-lg space-y-4">
-                  <h3 className="font-medium">Event Configuration</h3>
+                  <h3 className="font-medium">Настройка события</h3>
                   <div className="space-y-2">
-                    <Label>Event Type</Label>
+                    <Label>Тип события</Label>
                     <Select
                       value={formData.triggerConfig.eventType || ""}
                       onValueChange={(value) =>
@@ -446,17 +446,17 @@ export default function NewAutomationPage() {
                       }
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select event" />
+                        <SelectValue placeholder="Выберите событие" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="content.created">
-                          Content Created
+                          Контент создан
                         </SelectItem>
                         <SelectItem value="content.published">
-                          Content Published
+                          Контент опубликован
                         </SelectItem>
                         <SelectItem value="publication.failed">
-                          Publication Failed
+                          Публикация не удалась
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -471,17 +471,17 @@ export default function NewAutomationPage() {
             <div className="space-y-6">
               <div>
                 <h2 className="text-xl font-semibold mb-4">
-                  Conditions (Optional)
+                  Условия (необязательно)
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Add conditions to control when actions are executed
+                  Добавьте условия для контроля выполнения действий
                 </p>
               </div>
 
               {formData.conditions.length === 0 ? (
                 <div className="text-center py-8 border-2 border-dashed border-border rounded-lg">
                   <p className="text-sm text-muted-foreground mb-4">
-                    No conditions added. Actions will always execute when triggered.
+                    Условия не добавлены. Действия будут выполняться всегда при срабатывании триггера.
                   </p>
                   <Button
                     variant="outline"
@@ -495,7 +495,7 @@ export default function NewAutomationPage() {
                     }
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Condition
+                    Добавить условие
                   </Button>
                 </div>
               ) : (
@@ -508,9 +508,9 @@ export default function NewAutomationPage() {
                       <div className="flex items-start gap-4">
                         <div className="flex-1 grid grid-cols-3 gap-4">
                           <div className="space-y-2">
-                            <Label>Field</Label>
+                            <Label>Поле</Label>
                             <Input
-                              placeholder="e.g., platform"
+                              placeholder="например, platform"
                               value={condition.field}
                               onChange={(e) => {
                                 const newConditions = [...formData.conditions];
@@ -520,7 +520,7 @@ export default function NewAutomationPage() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label>Operator</Label>
+                            <Label>Оператор</Label>
                             <Select
                               value={condition.operator}
                               onValueChange={(value) => {
@@ -533,21 +533,21 @@ export default function NewAutomationPage() {
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="equals">Equals</SelectItem>
+                                <SelectItem value="equals">Равно</SelectItem>
                                 <SelectItem value="not_equals">
-                                  Not Equals
+                                  Не равно
                                 </SelectItem>
-                                <SelectItem value="contains">Contains</SelectItem>
+                                <SelectItem value="contains">Содержит</SelectItem>
                                 <SelectItem value="starts_with">
-                                  Starts With
+                                  Начинается с
                                 </SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
                           <div className="space-y-2">
-                            <Label>Value</Label>
+                            <Label>Значение</Label>
                             <Input
-                              placeholder="Value"
+                              placeholder="Значение"
                               value={condition.value}
                               onChange={(e) => {
                                 const newConditions = [...formData.conditions];
@@ -585,7 +585,7 @@ export default function NewAutomationPage() {
                     }
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Another Condition
+                    Добавить ещё условие
                   </Button>
                 </div>
               )}
@@ -596,9 +596,9 @@ export default function NewAutomationPage() {
           {currentStep === 4 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold mb-4">Configure Actions</h2>
+                <h2 className="text-xl font-semibold mb-4">Настройка действий</h2>
                 <p className="text-sm text-muted-foreground">
-                  Choose what happens when this automation is triggered
+                  Выберите, что произойдёт при срабатывании этой автоматизации
                 </p>
               </div>
 
@@ -606,7 +606,7 @@ export default function NewAutomationPage() {
                 <div className="space-y-4">
                   <div className="text-center py-4 border-2 border-dashed border-border rounded-lg">
                     <p className="text-sm text-muted-foreground mb-4">
-                      No actions configured. Add at least one action.
+                      Действия не настроены. Добавьте хотя бы одно действие.
                     </p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -670,9 +670,9 @@ export default function NewAutomationPage() {
                         {/* Action-specific config */}
                         {action.type === "generate_content" && (
                           <div className="space-y-2">
-                            <Label>AI Prompt</Label>
+                            <Label>Промпт для ИИ</Label>
                             <Textarea
-                              placeholder="Enter the prompt for content generation..."
+                              placeholder="Введите промпт для генерации контента..."
                               value={action.config.prompt || ""}
                               onChange={(e) => {
                                 const newActions = [...formData.actions];
@@ -686,7 +686,7 @@ export default function NewAutomationPage() {
 
                         {action.type === "publish_to_platform" && (
                           <div className="space-y-2">
-                            <Label>Platform</Label>
+                            <Label>Платформа</Label>
                             <Select
                               value={action.config.platform || ""}
                               onValueChange={(value) => {
@@ -696,7 +696,7 @@ export default function NewAutomationPage() {
                               }}
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select platform" />
+                                <SelectValue placeholder="Выберите платформу" />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="twitter">Twitter</SelectItem>
@@ -710,7 +710,7 @@ export default function NewAutomationPage() {
                         {action.type === "schedule_publication" && (
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                              <Label>Delay (hours)</Label>
+                              <Label>Задержка (часы)</Label>
                               <Input
                                 type="number"
                                 placeholder="0"
@@ -724,7 +724,7 @@ export default function NewAutomationPage() {
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label>Platform</Label>
+                              <Label>Платформа</Label>
                               <Select
                                 value={action.config.platform || ""}
                                 onValueChange={(value) => {
@@ -734,7 +734,7 @@ export default function NewAutomationPage() {
                                 }}
                               >
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select platform" />
+                                  <SelectValue placeholder="Выберите платформу" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="twitter">Twitter</SelectItem>
@@ -748,9 +748,9 @@ export default function NewAutomationPage() {
 
                         {action.type === "send_notification" && (
                           <div className="space-y-2">
-                            <Label>Notification Message</Label>
+                            <Label>Текст уведомления</Label>
                             <Textarea
-                              placeholder="Enter notification message..."
+                              placeholder="Введите текст уведомления..."
                               value={action.config.message || ""}
                               onChange={(e) => {
                                 const newActions = [...formData.actions];
@@ -770,7 +770,7 @@ export default function NewAutomationPage() {
                     onClick={() => {
                       // Show action selector in a simple way
                       const actionId = prompt(
-                        "Enter action type:\n1. generate_content\n2. publish_to_platform\n3. schedule_publication\n4. send_notification"
+                        "Введите тип действия:\n1. generate_content (Генерация контента)\n2. publish_to_platform (Публикация)\n3. schedule_publication (Планирование)\n4. send_notification (Уведомление)"
                       );
                       const actionMap: Record<string, string> = {
                         "1": "generate_content",
@@ -790,7 +790,7 @@ export default function NewAutomationPage() {
                     }}
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Another Action
+                    Добавить ещё действие
                   </Button>
                 </div>
               )}
@@ -801,23 +801,23 @@ export default function NewAutomationPage() {
           {currentStep === 5 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-semibold mb-4">Review & Confirm</h2>
+                <h2 className="text-xl font-semibold mb-4">Проверка и подтверждение</h2>
                 <p className="text-sm text-muted-foreground">
-                  Review your automation configuration before creating it
+                  Проверьте конфигурацию автоматизации перед созданием
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div className="p-4 border border-border rounded-lg">
-                  <h3 className="font-medium mb-3">Basic Information</h3>
+                  <h3 className="font-medium mb-3">Основная информация</h3>
                   <dl className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Name:</dt>
+                      <dt className="text-muted-foreground">Название:</dt>
                       <dd className="font-medium">{formData.name}</dd>
                     </div>
                     {formData.description && (
                       <div className="flex justify-between">
-                        <dt className="text-muted-foreground">Description:</dt>
+                        <dt className="text-muted-foreground">Описание:</dt>
                         <dd className="font-medium text-right max-w-xs">
                           {formData.description}
                         </dd>
@@ -827,7 +827,7 @@ export default function NewAutomationPage() {
                 </div>
 
                 <div className="p-4 border border-border rounded-lg">
-                  <h3 className="font-medium mb-3">Trigger</h3>
+                  <h3 className="font-medium mb-3">Триггер</h3>
                   <Badge variant="outline" className="mb-2">
                     {TRIGGER_TYPES.find((t) => t.id === formData.triggerType)
                       ?.name || "Unknown"}
@@ -841,7 +841,7 @@ export default function NewAutomationPage() {
 
                 {formData.conditions.length > 0 && (
                   <div className="p-4 border border-border rounded-lg">
-                    <h3 className="font-medium mb-3">Conditions</h3>
+                    <h3 className="font-medium mb-3">Условия</h3>
                     <div className="space-y-2">
                       {formData.conditions.map((condition, index) => (
                         <div
@@ -856,7 +856,7 @@ export default function NewAutomationPage() {
                 )}
 
                 <div className="p-4 border border-border rounded-lg">
-                  <h3 className="font-medium mb-3">Actions</h3>
+                  <h3 className="font-medium mb-3">Действия</h3>
                   <div className="space-y-2">
                     {formData.actions.map((action, index) => (
                       <div key={index} className="text-sm bg-muted p-3 rounded">
@@ -886,7 +886,7 @@ export default function NewAutomationPage() {
           disabled={currentStep === 1}
         >
           <ChevronLeft className="h-4 w-4 mr-2" />
-          Back
+          Назад
         </Button>
 
         <div className="flex gap-2">
@@ -894,11 +894,11 @@ export default function NewAutomationPage() {
             variant="outline"
             onClick={() => router.push("/automations")}
           >
-            Cancel
+            Отмена
           </Button>
           {currentStep < STEPS.length ? (
             <Button onClick={handleNext} disabled={!canProceed()}>
-              Next
+              Далее
               <ChevronRight className="h-4 w-4 ml-2" />
             </Button>
           ) : (
@@ -906,7 +906,7 @@ export default function NewAutomationPage() {
               onClick={handleSubmit}
               disabled={!canProceed() || isSubmitting}
             >
-              {isSubmitting ? "Creating..." : "Create Automation"}
+              {isSubmitting ? "Создание..." : "Создать автоматизацию"}
             </Button>
           )}
         </div>

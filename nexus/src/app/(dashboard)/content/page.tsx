@@ -22,7 +22,6 @@ import {
   FileText,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
 
 interface Content {
   id: string;
@@ -30,7 +29,7 @@ interface Content {
   contentType: string;
   status: "draft" | "ready" | "published" | "archived";
   createdAt: string;
-  adapted?: Record<string, any>;
+  adapted?: Record<string, unknown>;
   publications?: Array<{
     id: string;
     channelId: string;
@@ -54,7 +53,6 @@ export default function ContentListPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
 
-  // Mock productId - in production, this would come from context or URL
   const productId = "default-product-id";
 
   useEffect(() => {
@@ -132,7 +130,7 @@ export default function ContentListPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this content?")) return;
+    if (!confirm("Вы уверены, что хотите удалить этот контент?")) return;
 
     try {
       const response = await fetch(`/api/content/${id}`, {
@@ -153,7 +151,6 @@ export default function ContentListPage() {
     platform: string;
     contentType: string;
   }) => {
-    // Create new content with AI-generated data
     router.push(
       `/content/new?text=${encodeURIComponent(generatedData.text)}&platform=${generatedData.platform}&hashtags=${encodeURIComponent(generatedData.hashtags.join(","))}`
     );
@@ -176,9 +173,9 @@ export default function ContentListPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Content Studio</h1>
+          <h1 className="text-3xl font-bold text-foreground">Контент-студия</h1>
           <p className="text-muted-foreground mt-1">
-            Create and manage content across all platforms
+            Создавайте и управляйте контентом для всех платформ
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -188,11 +185,11 @@ export default function ContentListPage() {
             className="gap-2"
           >
             <Sparkles className="h-4 w-4" />
-            AI Generate
+            ИИ генерация
           </Button>
           <Button onClick={handleCreateNew} className="gap-2">
             <Plus className="h-4 w-4" />
-            Create Content
+            Создать контент
           </Button>
         </div>
       </div>
@@ -201,23 +198,23 @@ export default function ContentListPage() {
       {!isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-card border rounded-lg p-4">
-            <div className="text-sm text-muted-foreground">Total Content</div>
+            <div className="text-sm text-muted-foreground">Всего контента</div>
             <div className="text-2xl font-bold mt-1">{total}</div>
           </div>
           <div className="bg-card border rounded-lg p-4">
-            <div className="text-sm text-muted-foreground">Drafts</div>
+            <div className="text-sm text-muted-foreground">Черновики</div>
             <div className="text-2xl font-bold mt-1">
               {contents.filter((c) => c.status === "draft").length}
             </div>
           </div>
           <div className="bg-card border rounded-lg p-4">
-            <div className="text-sm text-muted-foreground">Ready</div>
+            <div className="text-sm text-muted-foreground">Готово</div>
             <div className="text-2xl font-bold mt-1">
               {contents.filter((c) => c.status === "ready").length}
             </div>
           </div>
           <div className="bg-card border rounded-lg p-4">
-            <div className="text-sm text-muted-foreground">Published</div>
+            <div className="text-sm text-muted-foreground">Опубликовано</div>
             <div className="text-2xl font-bold mt-1">
               {contents.filter((c) => c.status === "published").length}
             </div>
@@ -230,7 +227,7 @@ export default function ContentListPage() {
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search content..."
+            placeholder="Поиск контента..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -240,28 +237,28 @@ export default function ContentListPage() {
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[140px]">
               <Filter className="h-4 w-4 mr-2" />
-              <SelectValue placeholder="Status" />
+              <SelectValue placeholder="Статус" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="ready">Ready</SelectItem>
-              <SelectItem value="published">Published</SelectItem>
-              <SelectItem value="archived">Archived</SelectItem>
+              <SelectItem value="all">Все статусы</SelectItem>
+              <SelectItem value="draft">Черновик</SelectItem>
+              <SelectItem value="ready">Готово</SelectItem>
+              <SelectItem value="published">Опубликовано</SelectItem>
+              <SelectItem value="archived">В архиве</SelectItem>
             </SelectContent>
           </Select>
 
           <Select value={typeFilter} onValueChange={setTypeFilter}>
             <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Type" />
+              <SelectValue placeholder="Тип" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
-              <SelectItem value="post">Post</SelectItem>
-              <SelectItem value="article">Article</SelectItem>
-              <SelectItem value="tweet">Tweet</SelectItem>
-              <SelectItem value="story">Story</SelectItem>
-              <SelectItem value="announcement">Announcement</SelectItem>
+              <SelectItem value="all">Все типы</SelectItem>
+              <SelectItem value="post">Пост</SelectItem>
+              <SelectItem value="article">Статья</SelectItem>
+              <SelectItem value="tweet">Твит</SelectItem>
+              <SelectItem value="story">Сторис</SelectItem>
+              <SelectItem value="announcement">Анонс</SelectItem>
             </SelectContent>
           </Select>
 
@@ -295,12 +292,12 @@ export default function ContentListPage() {
         <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed rounded-lg">
           <FileText className="h-12 w-12 text-muted-foreground mb-4" />
           <h3 className="text-lg font-semibold text-foreground mb-2">
-            No content yet
+            Контента пока нет
           </h3>
           <p className="text-muted-foreground mb-6 text-center max-w-md">
             {searchQuery || statusFilter !== "all" || typeFilter !== "all"
-              ? "No content matches your filters. Try adjusting your search criteria."
-              : "Get started by creating your first piece of content or use AI to generate content automatically."}
+              ? "Контент не найден. Попробуйте изменить фильтры поиска."
+              : "Начните с создания первого контента или используйте ИИ для автоматической генерации."}
           </p>
           <div className="flex items-center gap-3">
             <Button
@@ -309,11 +306,11 @@ export default function ContentListPage() {
               className="gap-2"
             >
               <Sparkles className="h-4 w-4" />
-              AI Generate
+              ИИ генерация
             </Button>
             <Button onClick={handleCreateNew} className="gap-2">
               <Plus className="h-4 w-4" />
-              Create Content
+              Создать контент
             </Button>
           </div>
         </div>
@@ -349,7 +346,7 @@ export default function ContentListPage() {
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
               >
-                Previous
+                Назад
               </Button>
               <div className="flex items-center gap-2">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -385,7 +382,7 @@ export default function ContentListPage() {
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
               >
-                Next
+                Вперёд
               </Button>
             </div>
           )}

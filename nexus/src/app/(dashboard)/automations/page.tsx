@@ -115,7 +115,7 @@ export default function AutomationsPage() {
         body: JSON.stringify({
           ...automation,
           id: undefined,
-          name: `${automation.name} (Copy)`,
+          name: `${automation.name} (Копия)`,
           enabled: false,
         }),
       });
@@ -129,7 +129,7 @@ export default function AutomationsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this automation?")) return;
+    if (!confirm("Вы уверены, что хотите удалить эту автоматизацию?")) return;
 
     try {
       const response = await fetch(`/api/automations/${id}`, {
@@ -160,19 +160,19 @@ export default function AutomationsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Automations</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Автоматизации</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Automate your content workflows with triggers and actions
+            Автоматизируйте рабочие процессы с контентом с помощью триггеров и действий
           </p>
         </div>
         <div className="flex gap-2">
           <Button onClick={fetchAutomations} variant="outline" size="sm">
             <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
+            Обновить
           </Button>
           <Button onClick={() => router.push("/automations/new")}>
             <Plus className="h-4 w-4 mr-2" />
-            Create Automation
+            Создать автоматизацию
           </Button>
         </div>
       </div>
@@ -180,21 +180,21 @@ export default function AutomationsPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-lg border border-border">
-          <p className="text-sm text-muted-foreground">Total</p>
+          <p className="text-sm text-muted-foreground">Всего</p>
           <p className="text-2xl font-bold mt-1">{stats.total}</p>
         </div>
         <div className="bg-white p-4 rounded-lg border border-border">
-          <p className="text-sm text-muted-foreground">Enabled</p>
+          <p className="text-sm text-muted-foreground">Активные</p>
           <p className="text-2xl font-bold mt-1 text-green-600">{stats.enabled}</p>
         </div>
         <div className="bg-white p-4 rounded-lg border border-border">
-          <p className="text-sm text-muted-foreground">Disabled</p>
+          <p className="text-sm text-muted-foreground">Отключённые</p>
           <p className="text-2xl font-bold mt-1 text-gray-400">
             {stats.disabled}
           </p>
         </div>
         <div className="bg-white p-4 rounded-lg border border-border">
-          <p className="text-sm text-muted-foreground">Total Runs</p>
+          <p className="text-sm text-muted-foreground">Всего запусков</p>
           <p className="text-2xl font-bold mt-1">{stats.totalRuns}</p>
         </div>
       </div>
@@ -204,48 +204,48 @@ export default function AutomationsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Trigger Type Filter */}
           <div className="space-y-2">
-            <Label htmlFor="triggerType">Trigger Type</Label>
+            <Label htmlFor="triggerType">Тип триггера</Label>
             <Select
               value={selectedTriggerType}
               onValueChange={setSelectedTriggerType}
             >
               <SelectTrigger id="triggerType">
-                <SelectValue placeholder="All trigger types" />
+                <SelectValue placeholder="Все типы триггеров" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All trigger types</SelectItem>
+                <SelectItem value="all">Все типы триггеров</SelectItem>
                 <SelectItem value="webhook">Webhook</SelectItem>
-                <SelectItem value="schedule">Schedule</SelectItem>
-                <SelectItem value="event">Event</SelectItem>
-                <SelectItem value="manual">Manual</SelectItem>
+                <SelectItem value="schedule">Расписание</SelectItem>
+                <SelectItem value="event">Событие</SelectItem>
+                <SelectItem value="manual">Вручную</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Status Filter */}
           <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">Статус</Label>
             <Select value={selectedStatus} onValueChange={setSelectedStatus}>
               <SelectTrigger id="status">
-                <SelectValue placeholder="All statuses" />
+                <SelectValue placeholder="Все статусы" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All statuses</SelectItem>
-                <SelectItem value="enabled">Enabled</SelectItem>
-                <SelectItem value="disabled">Disabled</SelectItem>
+                <SelectItem value="all">Все статусы</SelectItem>
+                <SelectItem value="enabled">Активные</SelectItem>
+                <SelectItem value="disabled">Отключённые</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Search */}
           <div className="space-y-2">
-            <Label htmlFor="search">Search</Label>
+            <Label htmlFor="search">Поиск</Label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 id="search"
                 type="text"
-                placeholder="Search automations..."
+                placeholder="Поиск автоматизаций..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -261,7 +261,7 @@ export default function AutomationsPage() {
           <div className="text-center py-12">
             <RefreshCw className="h-8 w-8 animate-spin mx-auto text-muted-foreground" />
             <p className="mt-2 text-sm text-muted-foreground">
-              Loading automations...
+              Загрузка автоматизаций...
             </p>
           </div>
         ) : filteredAutomations.length === 0 ? (
@@ -269,18 +269,18 @@ export default function AutomationsPage() {
             <Zap className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               {automations.length === 0
-                ? "No automations yet"
-                : "No automations found"}
+                ? "Автоматизаций пока нет"
+                : "Автоматизации не найдены"}
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
               {automations.length === 0
-                ? "Create your first automation to streamline your workflows"
-                : "Try adjusting your filters"}
+                ? "Создайте первую автоматизацию для оптимизации рабочих процессов"
+                : "Попробуйте изменить фильтры"}
             </p>
             {automations.length === 0 && (
               <Button onClick={() => router.push("/automations/new")}>
                 <Plus className="h-4 w-4 mr-2" />
-                Create Automation
+                Создать автоматизацию
               </Button>
             )}
           </div>

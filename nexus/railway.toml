@@ -1,8 +1,9 @@
 [build]
-builder = "dockerfile"
-dockerfilePath = "Dockerfile"
+builder = "nixpacks"
+buildCommand = "npm run build && npx prisma generate"
 
 [deploy]
+startCommand = "npx prisma migrate deploy && node .next/standalone/server.js"
 numReplicas = 1
 healthcheckPath = "/api/health"
 healthcheckTimeout = 300
@@ -10,4 +11,4 @@ restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 
 [service]
-internalPort = 3000
+internalPort = 8080

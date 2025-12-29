@@ -23,14 +23,14 @@ export type ActivityType =
   | "failed"
   | "cancelled";
 
-export type Platform = "twitter" | "linkedin" | "facebook" | "instagram" | "all";
+export type Platform = "twitter" | "linkedin" | "facebook" | "instagram" | "telegram" | "vk" | "discord" | "all";
 
 export interface ActivityEvent {
   id: string;
   type: ActivityType;
   description: string;
   timestamp: Date | string;
-  platform?: Platform;
+  platform?: string;
   contentType?: string;
   metadata?: Record<string, unknown>;
 }
@@ -44,49 +44,49 @@ export interface RecentActivityProps {
 const activityConfig = {
   published: {
     icon: CheckCircle2,
-    label: "Published",
+    label: "Опубликовано",
     color: "text-green-600",
     bgColor: "bg-green-100",
     badgeVariant: "default" as const,
   },
   scheduled: {
     icon: Calendar,
-    label: "Scheduled",
+    label: "Запланировано",
     color: "text-blue-600",
     bgColor: "bg-blue-100",
     badgeVariant: "secondary" as const,
   },
   generated: {
     icon: Sparkles,
-    label: "Generated",
+    label: "Сгенерировано",
     color: "text-purple-600",
     bgColor: "bg-purple-100",
     badgeVariant: "secondary" as const,
   },
   drafted: {
     icon: FileText,
-    label: "Drafted",
+    label: "Черновик",
     color: "text-gray-600",
     bgColor: "bg-gray-100",
     badgeVariant: "outline" as const,
   },
   failed: {
     icon: XCircle,
-    label: "Failed",
+    label: "Ошибка",
     color: "text-red-600",
     bgColor: "bg-red-100",
     badgeVariant: "destructive" as const,
   },
   cancelled: {
     icon: XCircle,
-    label: "Cancelled",
+    label: "Отменено",
     color: "text-orange-600",
     bgColor: "bg-orange-100",
     badgeVariant: "outline" as const,
   },
 };
 
-const platformConfig = {
+const platformConfig: Record<string, { icon: typeof Twitter; label: string; color: string }> = {
   twitter: {
     icon: Twitter,
     label: "Twitter",
@@ -107,9 +107,24 @@ const platformConfig = {
     label: "Instagram",
     color: "text-pink-600",
   },
+  telegram: {
+    icon: Activity,
+    label: "Telegram",
+    color: "text-blue-400",
+  },
+  vk: {
+    icon: Activity,
+    label: "ВКонтакте",
+    color: "text-blue-500",
+  },
+  discord: {
+    icon: Activity,
+    label: "Discord",
+    color: "text-indigo-500",
+  },
   all: {
     icon: Activity,
-    label: "All Platforms",
+    label: "Все платформы",
     color: "text-gray-600",
   },
 };
@@ -124,15 +139,15 @@ function formatRelativeTime(date: Date | string): string {
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   if (diffSeconds < 60) {
-    return "just now";
+    return "только что";
   } else if (diffMinutes < 60) {
-    return `${diffMinutes} minute${diffMinutes !== 1 ? "s" : ""} ago`;
+    return `${diffMinutes} мин. назад`;
   } else if (diffHours < 24) {
-    return `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
+    return `${diffHours} ч. назад`;
   } else if (diffDays < 7) {
-    return `${diffDays} day${diffDays !== 1 ? "s" : ""} ago`;
+    return `${diffDays} дн. назад`;
   } else {
-    return timestamp.toLocaleDateString("en-US", {
+    return timestamp.toLocaleDateString("ru-RU", {
       month: "short",
       day: "numeric",
       year: timestamp.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
@@ -150,18 +165,17 @@ export function RecentActivity({
   return (
     <Card className={cn("", className)}>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Recent Activity</CardTitle>
+        <CardTitle className="text-lg font-semibold">Последняя активность</CardTitle>
       </CardHeader>
       <CardContent>
         {displayEvents.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <Activity className="h-12 w-12 text-muted-foreground mb-3" />
             <h3 className="text-sm font-medium text-foreground mb-1">
-              No recent activity
+              Нет активности
             </h3>
             <p className="text-sm text-muted-foreground max-w-sm">
-              Your activity feed is empty. Start creating and publishing content to
-              see your activity here.
+              Лента активности пуста. Начните создавать и публиковать контент.
             </p>
           </div>
         ) : (
@@ -170,7 +184,7 @@ export function RecentActivity({
               const config = activityConfig[event.type];
               const ActivityIcon = config.icon;
               const platformInfo = event.platform
-                ? platformConfig[event.platform]
+                ? platformConfig[event.platform.toLowerCase()]
                 : null;
               const PlatformIcon = platformInfo?.icon;
 
