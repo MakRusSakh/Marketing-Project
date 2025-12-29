@@ -2,6 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
+startCommand = "node .next/standalone/server.js"
 numReplicas = 1
 healthcheckPath = "/api/health"
 healthcheckTimeout = 300
