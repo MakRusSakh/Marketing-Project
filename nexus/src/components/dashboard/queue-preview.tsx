@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 export interface QueuedPost {
   id: string;
-  platform: "twitter" | "linkedin" | "facebook" | "instagram";
+  platform: string;
   contentPreview: string;
   scheduledAt: Date | string;
   contentType?: string;
@@ -26,7 +26,7 @@ export interface QueuePreviewProps {
   className?: string;
 }
 
-const platformConfig = {
+const platformConfig: Record<string, { icon: typeof Twitter; label: string; color: string }> = {
   twitter: {
     icon: Twitter,
     label: "Twitter",
@@ -47,6 +47,21 @@ const platformConfig = {
     label: "Instagram",
     color: "bg-pink-600",
   },
+  telegram: {
+    icon: Twitter, // placeholder
+    label: "Telegram",
+    color: "bg-blue-400",
+  },
+  vk: {
+    icon: Twitter, // placeholder
+    label: "ВКонтакте",
+    color: "bg-blue-500",
+  },
+  discord: {
+    icon: Twitter, // placeholder
+    label: "Discord",
+    color: "bg-indigo-500",
+  },
 };
 
 function formatScheduledTime(date: Date | string): string {
@@ -58,13 +73,13 @@ function formatScheduledTime(date: Date | string): string {
 
   if (diffHours < 1) {
     const diffMinutes = Math.floor(diffMs / (1000 * 60));
-    return `in ${diffMinutes} minute${diffMinutes !== 1 ? "s" : ""}`;
+    return `через ${diffMinutes} мин.`;
   } else if (diffHours < 24) {
-    return `in ${diffHours} hour${diffHours !== 1 ? "s" : ""}`;
+    return `через ${diffHours} ч.`;
   } else if (diffDays < 7) {
-    return `in ${diffDays} day${diffDays !== 1 ? "s" : ""}`;
+    return `через ${diffDays} дн.`;
   } else {
-    return scheduled.toLocaleDateString("en-US", {
+    return scheduled.toLocaleDateString("ru-RU", {
       month: "short",
       day: "numeric",
       hour: "numeric",
@@ -79,10 +94,10 @@ export function QueuePreview({ posts, className }: QueuePreviewProps) {
   return (
     <Card className={cn("", className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg font-semibold">Publishing Queue</CardTitle>
+        <CardTitle className="text-lg font-semibold">Очередь публикаций</CardTitle>
         <Link href="/queue">
           <Button variant="ghost" size="sm" className="gap-1">
-            View All
+            Все
             <ExternalLink className="h-3 w-3" />
           </Button>
         </Link>
@@ -92,17 +107,16 @@ export function QueuePreview({ posts, className }: QueuePreviewProps) {
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <Calendar className="h-12 w-12 text-muted-foreground mb-3" />
             <h3 className="text-sm font-medium text-foreground mb-1">
-              No scheduled posts
+              Нет запланированных публикаций
             </h3>
             <p className="text-sm text-muted-foreground max-w-sm">
-              Your publishing queue is empty. Create and schedule content to see it
-              here.
+              Очередь пуста. Создайте контент и запланируйте публикацию.
             </p>
           </div>
         ) : (
           <div className="space-y-4">
             {displayPosts.map((post) => {
-              const config = platformConfig[post.platform];
+              const config = platformConfig[post.platform] || platformConfig.twitter;
               const PlatformIcon = config.icon;
 
               return (

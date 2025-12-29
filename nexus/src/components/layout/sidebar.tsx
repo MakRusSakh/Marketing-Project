@@ -23,32 +23,32 @@ interface NavItem {
 
 const navigationItems: NavItem[] = [
   {
-    name: "Dashboard",
+    name: "Главная",
     href: "/",
     icon: Home,
   },
   {
-    name: "Content",
+    name: "Контент",
     href: "/content",
     icon: FileText,
   },
   {
-    name: "Queue",
+    name: "Очередь",
     href: "/queue",
     icon: List,
   },
   {
-    name: "Automations",
+    name: "Автоматизации",
     href: "/automations",
     icon: Zap,
   },
   {
-    name: "Analytics",
+    name: "Аналитика",
     href: "/analytics",
     icon: BarChart,
   },
   {
-    name: "Settings",
+    name: "Настройки",
     href: "/settings",
     icon: Settings,
   },
@@ -69,7 +69,7 @@ export function Sidebar() {
       <div className="flex h-16 items-center justify-between border-b border-gray-800 px-4">
         {!isCollapsed && (
           <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Marketing Nexus
+            NEXUS
           </h1>
         )}
         <button
@@ -78,7 +78,7 @@ export function Sidebar() {
             "rounded-lg p-1.5 hover:bg-gray-800 transition-colors",
             isCollapsed && "mx-auto"
           )}
-          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={isCollapsed ? "Развернуть меню" : "Свернуть меню"}
         >
           {isCollapsed ? (
             <ChevronRight className="h-5 w-5" />
@@ -125,8 +125,8 @@ export function Sidebar() {
           <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex-shrink-0" />
           {!isCollapsed && (
             <div className="flex-1 overflow-hidden">
-              <p className="text-sm font-medium truncate">Marketing Team</p>
-              <p className="text-xs text-gray-400 truncate">team@example.com</p>
+              <p className="text-sm font-medium truncate">Администратор</p>
+              <p className="text-xs text-gray-400 truncate">admin@nexus.local</p>
             </div>
           )}
         </div>
