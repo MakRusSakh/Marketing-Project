@@ -1,3 +1,6 @@
+// Force dynamic rendering - this page needs database access
+export const dynamic = 'force-dynamic';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
